@@ -1,4 +1,4 @@
-import { CoffeeIcon, UtensilsCrossedIcon } from "lucide-react";
+import { CoffeeIcon, FileClockIcon, UtensilsCrossedIcon } from "lucide-react";
 import { Logo } from "./logo";
 import { useViewClient } from "@/hooks/useViewClient";
 
@@ -13,7 +13,7 @@ export function Header() {
           onClick={() => setView("customer")}
         >
           <CoffeeIcon />
-          <span>Cliente</span>
+          <span>Caixa</span>
         </div>
         <div
           className="flex gap-2 text-white hover:bg-red-700 py-2 px-3 border-0 rounded-md cursor-pointer"
@@ -21,6 +21,13 @@ export function Header() {
         >
           <UtensilsCrossedIcon />
           <span>Cozinha</span>
+        </div>
+        <div
+          className="flex gap-2 text-white hover:bg-red-700 py-2 px-3 border-0 rounded-md cursor-pointer"
+          onClick={() => setView("history")}
+        >
+          <FileClockIcon />
+          <span>Historico</span>
         </div>
       </nav>
     </header>

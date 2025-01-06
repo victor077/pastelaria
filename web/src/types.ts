@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   price: number;
   category: "pastel" | "drink";
-  description: string;
+  description?: string;
 }
 
 export interface OrderItem {
@@ -17,4 +17,12 @@ export interface Order {
   status: "pending" | "preparing" | "ready";
   total: number;
   timestamp: Date;
+}
+
+export interface OrderHistory {
+  id: number;
+  date: string;
+  items: OrderItem[];
+  total: number;
+  status: "pending" | "completed" | "cancelled";
 }

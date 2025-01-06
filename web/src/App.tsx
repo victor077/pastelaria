@@ -6,6 +6,7 @@ import { Order, OrderItem, Product } from "./types";
 import { Cart } from "./components/cart";
 import { OrderList } from "./components/order-list";
 import { useViewClient } from "./hooks/useViewClient";
+import { History } from "./components/history";
 
 function App() {
   const view = useViewClient((state) => state.view);
@@ -69,7 +70,7 @@ function App() {
     <>
       <Header />
       <main className="px-8 w-full mt-20">
-        {view === "customer" ? (
+        {view === "customer" && (
           <div className="flex items-start gap-10">
             <div className="flex flex-col gap-6 w-[68%]">
               <p className="text-2xl font-bold text-gray-800">Cardápio</p>
@@ -117,7 +118,8 @@ function App() {
               )}
             </div>
           </div>
-        ) : (
+        )}
+        {view === "kitchen" && (
           <>
             <OrderList
               orders={orders}
@@ -126,6 +128,7 @@ function App() {
             />
           </>
         )}
+        {view === "history" && <History />}
       </main>
     </>
   );

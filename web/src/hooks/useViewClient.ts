@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 interface ViewState {
-  view: "customer" | "kitchen";
-  setView: (view: "customer" | "kitchen") => void;
+  view: "customer" | "kitchen" | "history";
+  setView: (view: "customer" | "kitchen" | "history") => void;
 }
 
 export const useViewClient = create<ViewState>((set) => ({
