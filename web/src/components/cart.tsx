@@ -1,22 +1,20 @@
-import { OrderItem } from "@/types";
 import { Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
-
+import { CartItem, } from "@/services/models/menu";
+import { translateToPortuguese } from "@/lib/utils";
 interface CartProps {
-  items: OrderItem[];
-  onUpdateQuantity: (index: number, quantity: number) => void;
+  items: CartItem[];
   onRemove: (index: number) => void;
   onSubmit: () => void;
 }
 
 export function Cart({
   items,
-  onUpdateQuantity,
   onRemove,
   onSubmit,
 }: CartProps) {
   const total = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + item.unitPrice * item.quantity,
     0
   );
   if (items.length === 0) {
@@ -33,24 +31,15 @@ export function Cart({
         {items.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <select
-                value={item.quantity}
-                onChange={(e) =>
-                  onUpdateQuantity(index, Number(e.target.value))
-                }
-                className="border rounded-md p-1 text-gray-700 focus:ring-red-500 focus:border-red-500"
-              >
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
-                ))}
-              </select>
-              <span className="text-gray-700">{item.product.name}</span>
+            
+              <div className="flex items-center gap-1">
+              <span className="font-semibold">{item.quantity}x</span>
+              <span className="text-gray-700">{translateToPortuguese(item?.flavor ?? "")}</span>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <span className="text-gray-700">
-                R$ {(item.product.price * item.quantity).toFixed(2)}
+              R$ {(item.unitPrice * item.quantity).toFixed(2)}
               </span>
               <button
                 onClick={() => onRemove(index)}
