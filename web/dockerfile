@@ -1,0 +1,27 @@
+FROM node:22-bookworm
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+WORKDIR /usr/share/nginx/html
+
+# Limpar arquivos padrões do nginx
+RUN rm -rf ./*
+
+# Copiar build para a imagem nginx
+COPY --from=builder /app/dist .
+
+# Expor a porta do servidor
+EXPOSE 80
+
+# Comando de inicialização do Nginx
+CMD ["nginx", "-g", "daemon off;"]
