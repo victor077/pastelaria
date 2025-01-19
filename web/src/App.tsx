@@ -74,7 +74,7 @@ function App() {
   };
 
   const removeFromCart = (index: number) => {
-    setCartItems(cartItems.filter((x, i) => i !== index));
+    setCartItems(cartItems.filter((_x, i) => i !== index  ));
   };
 
 
