@@ -10,15 +10,21 @@ COPY . .
 
 RUN npm run build
 
+# Etapa de execução com Nginx
 FROM nginx:stable-alpine
 
+# Remover a configuração padrão do Nginx
+RUN rm -rf /etc/nginx/conf.d/*
+
+# Copiar o arquivo de configuração customizada para o Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copiar os arquivos de build do front-end para o diretório do Nginx
 WORKDIR /usr/share/nginx/html
-
 RUN rm -rf ./*
+COPY --from=builder /app/dist ./
 
-COPY --from=builder /app/dist .
-
-# Expondo a porta 3000
-EXPOSE 5173  
+# Expondo a porta que o front-end irá usar
+EXPOSE 5173
 
 CMD ["nginx", "-g", "daemon off;"]
