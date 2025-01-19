@@ -2,7 +2,7 @@ FROM node:22-bookworm AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json ./ 
 
 RUN npm install
 
@@ -10,19 +10,15 @@ COPY . .
 
 RUN npm run build
 
-# Serve os arquivos diretamente com o Node.js
-FROM node:22-bookworm
+FROM nginx:stable-alpine
 
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-# Copia os arquivos compilados para o diretório /app
+RUN rm -rf ./*
+
 COPY --from=builder /app/web/dist .
 
-# Expor a porta que o servidor vai rodar
-EXPOSE 3000
+# Expondo a porta 3000
+EXPOSE 3000  
 
-# Instalar o http-server ou qualquer servidor de arquivos estáticos
-RUN npm install -g http-server
-
-# Iniciar o servidor
-CMD ["http-server", "dist", "-p", "3000"]
+CMD ["nginx", "-g", "daemon off;"]
